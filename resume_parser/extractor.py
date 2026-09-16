@@ -17,3 +17,7 @@ def extract_text_from_pdf(file_path):
     document.close()
 
     return text # returns the text to whatever part of the application called the function
+
+if __name__ == "__main__":
+    resume_text = extract_text_from_pdf("test_resume.pdf")
+    print(resume_text)
