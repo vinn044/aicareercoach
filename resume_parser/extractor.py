@@ -19,5 +19,10 @@ def extract_text_from_pdf(file_path):
     return text # returns the text to whatever part of the application called the function
 
 if __name__ == "__main__":
+    from parser import parse_resume
+
     resume_text = extract_text_from_pdf("test_resume.pdf")
-    print(resume_text)
+
+    candidate = parse_resume(resume_text)
+
+    print(candidate)
