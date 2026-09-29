@@ -1,6 +1,5 @@
 import re
-from models import CandidateProfile
-
+from .models import CandidateProfile
 
 def extract_section(text, section_name, possible_sections):
     lines = [line.strip() for line in text.splitlines() if line.strip()]
