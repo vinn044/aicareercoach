@@ -1,5 +1,5 @@
 import re
-from .models import CandidateProfile
+from .models import CandidateProfile, Education, Experience
 
 # Skills we currently know how to recognize
 KNOWN_SKILLS = [
@@ -111,6 +111,53 @@ def extract_skills(text):
 
     return found_skills
 
+# Parse for Education
+def parse_education(lines):
+    if not lines:
+        return []
+
+    education = Education()
+
+    if len(lines) > 0:
+        education.school = lines[0]
+
+    if len(lines) > 1:
+        education.degree = lines[1]
+
+    if len(lines) > 2:
+        education.graduation_date = lines[2]
+
+    return [education]
+
+# Pares for Experience
+def parse_experience(lines):
+    if not lines:
+        return []
+
+    experience = Experience()
+
+    if len(lines) > 0:
+        experience.job_title = lines[0]
+
+    if len(lines) > 1:
+        experience.company = lines[1]
+
+    if len(lines) > 2:
+        dates = lines[2]
+
+        if " - " in dates:
+            start_date, end_date = dates.split(" - ", 1)
+            experience.start_date = start_date.strip()
+            experience.end_date = end_date.strip()
+        else:
+            experience.start_date = dates
+
+    if len(lines) > 3:
+        experience.description = " ".join(lines[3:])
+
+    return [experience]
+
+# Parse for resume
 def parse_resume(text):
     lines = [line.strip() for line in text.splitlines() if line.strip()]
 
@@ -141,9 +188,13 @@ def parse_resume(text):
     # Search resume for skills
     profile.skills = extract_skills(text)
 
-    #Search resume for education and experience
-    profile.education = extract_section(text, "education")
-    profile.experience = extract_section(text, "experience")
+    #Search resume for education, experience, projects, certifications, etc
+    education_lines = extract_section(text, "education")
+    experience_lines = extract_section(text, "experience")
+
+    profile.education = parse_education(education_lines)
+    profile.experience = parse_experience(experience_lines)
+
     profile.projects = extract_section(text, "projects")
     profile.certifications = extract_section(text, "certifications")
 
