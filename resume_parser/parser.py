@@ -113,49 +113,96 @@ def extract_skills(text):
 
 # Parse for Education
 def parse_education(lines):
+    educations = []
+
     if not lines:
-        return []
+        return educations
 
-    education = Education()
+    current_education = None
 
-    if len(lines) > 0:
-        education.school = lines[0]
+    for index, line in enumerate(lines):
 
-    if len(lines) > 1:
-        education.degree = lines[1]
+        # Look for a graduation date
+        date_match = re.search(
+            r'(Expected Graduation:\s*)?'
+            r'(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|'
+            r'May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|'
+            r'Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)'
+            r'\s+\d{4}',
+            line,
+            re.IGNORECASE
+        )
 
-    if len(lines) > 2:
-        education.graduation_date = lines[2]
+        if date_match:
+            education = Education()
 
-    return [education]
+            # Assume:
+            # School
+            # Degree
+            # Graduation Date
+            if index >= 2:
+                education.school = lines[index - 2]
+                education.degree = lines[index - 1]
+
+            education.graduation_date = line
+
+            educations.append(education)
+
+    return educations
 
 # Pares for Experience
 def parse_experience(lines):
+    experiences = []
+
     if not lines:
-        return []
+        return experiences
 
-    experience = Experience()
+    current_experience = None
 
-    if len(lines) > 0:
-        experience.job_title = lines[0]
+    for index, line in enumerate(lines):
+        # Look for a date range such as:
+        # May 2025 - August 2025
+        # January 2024 - Present
+        date_match = re.search(
+            r'(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|'
+            r'May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|'
+            r'Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)'
+            r'\s+\d{4}\s*[-–]\s*'
+            r'(Present|Current|'
+            r'Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|'
+            r'May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|'
+            r'Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)'
+            r'(?:\s+\d{4})?',
+            line,
+            re.IGNORECASE
+        )
 
-    if len(lines) > 1:
-        experience.company = lines[1]
+        if date_match:
+            # The two lines before the dates are assumed to be
+            # job title and company.
+            if current_experience:
+                experiences.append(current_experience)
 
-    if len(lines) > 2:
-        dates = lines[2]
+            current_experience = Experience()
 
-        if " - " in dates:
-            start_date, end_date = dates.split(" - ", 1)
-            experience.start_date = start_date.strip()
-            experience.end_date = end_date.strip()
-        else:
-            experience.start_date = dates
+            if index >= 2:
+                current_experience.job_title = lines[index - 2]
+                current_experience.company = lines[index - 1]
 
-    if len(lines) > 3:
-        experience.description = " ".join(lines[3:])
+            dates = re.split(r'\s*[-–]\s*', line, maxsplit=1)
 
-    return [experience]
+            if len(dates) == 2:
+                current_experience.start_date = dates[0].strip()
+                current_experience.end_date = dates[1].strip()
+
+        elif current_experience:
+            current_experience.description += line + " "
+
+    if current_experience:
+        current_experience.description = current_experience.description.strip()
+        experiences.append(current_experience)
+
+    return experiences
 
 # Parse for resume
 def parse_resume(text):
