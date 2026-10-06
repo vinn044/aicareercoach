@@ -28,6 +28,7 @@ assert candidate.education[0].school == "University of Texas Rio Grande Valley"
 assert candidate.education[0].degree == "Bachelor of Science in Computer Science"
 assert candidate.education[0].graduation_date == "Expected Graduation: May 2027"
 
+
 # Test structured experience
 assert candidate.experience[0].job_title == "Software Intern"
 assert candidate.experience[0].company == "ABC Company"
@@ -44,5 +45,10 @@ assert "education" in candidate_dict
 assert "experience" in candidate_dict
 assert "projects" in candidate_dict
 assert "certifications" in candidate_dict
+
+# Test structured JSON data
+assert candidate_dict["education"][0]["school"] == "University of Texas Rio Grande Valley"
+assert candidate_dict["experience"][0]["job_title"] == "Software Intern"
+assert candidate_dict["experience"][0]["company"] == "ABC Company"
 
 print("\nAll resume parser tests passed!")

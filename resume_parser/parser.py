@@ -90,7 +90,7 @@ def extract_section(text, section_type):
             collecting = True
             continue
 
-        # Stop when another section begins
+        # Stop when another section begins ***CHECK if this date/May August counts as the same "Section"
         if collecting and normalized_line in all_headings:
             break
 
