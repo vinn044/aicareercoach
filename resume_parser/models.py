@@ -24,6 +24,8 @@ class CandidateProfile:
     email: str = ""
     phone: str = ""
 
+    # Stores the candidate's programming languages,
+    # technical skills, and other relevant abilities.
     skills: list[str] = field(default_factory=list)
     education: list[Education] = field(default_factory=list)
     experience: list[Experience] = field(default_factory=list)
