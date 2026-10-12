@@ -1,2 +1,6 @@
 .env
 .db
+__pycache__/
+*.py[cod]
+local_resumes/
+matching/mycommands.md
