@@ -5,17 +5,6 @@ This package ranks job listings by semantic similarity to a parsed
 resumes so ranking behavior remains repeatable while the team adds a real job
 data source.
 
-## Run the local demo
-
-From the repository root, after installing `requirements.txt`:
-
-```bash
-python -m matching.embeddings
-```
-
-The script embeds each original fake resume and ranks the curated jobs in
-`sample_jobs.py`.
-
 ## Try a personal resume safely
 
 Put a PDF in `local_resumes/`, which Git ignores, then run:

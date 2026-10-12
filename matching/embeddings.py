@@ -1,4 +1,8 @@
-"""Create semantic job rankings from parsed candidate profiles."""
+"""Create semantic job rankings from parsed candidate profiles.
+
+Pipeline reference: PDF text -> CandidateProfile -> embedding vectors ->
+cosine-similarity scores -> highest-to-lowest job ranking.
+"""
 
 import argparse
 import math
@@ -7,7 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol
 
-from resume_parser.models import CandidateProfile, Education, Experience
+from resume_parser.models import CandidateProfile
 
 from .sample_jobs import JobListing, SAMPLE_JOBS
 
@@ -109,6 +113,7 @@ def rank_jobs(
     model: EmbeddingModel,
 ) -> list[RankedJob]:
     """Rank job listings by semantic similarity to a parsed candidate profile."""
+    # Encode the resume once, then compare that same vector with every job vector.
     resume_embedding = model.encode(profile_to_embedding_text(profile))
     ranked_jobs = [
         RankedJob(
@@ -132,15 +137,6 @@ def load_embedding_model(model_name: str = MODEL_NAME):
     return SentenceTransformer(model_name)
 
 
-def profile_from_fixture(fixture: dict[str, object]) -> CandidateProfile:
-    """Adapt the original fake-resume dictionaries for the command-line demo."""
-    return CandidateProfile(
-        skills=list(fixture["skills"]),
-        experience=[Experience(description=str(fixture["experience"]))],
-        education=[Education(degree=str(fixture["education"]))],
-    )
-
-
 def parse_pdf_resume(pdf_path: Path) -> CandidateProfile:
     """Run the existing PDF extraction and deterministic parser pipeline."""
     from resume_parser.extractor import extract_text_from_pdf
@@ -162,28 +158,22 @@ def print_rankings(label: str, profile: CandidateProfile, model: EmbeddingModel)
 
 
 def main() -> None:
+    # This is the entry point used by: python -m matching.embeddings --resume ...
     parser = argparse.ArgumentParser(
         description="Rank curated jobs against a parsed PDF resume."
     )
     parser.add_argument(
         "--resume",
         type=Path,
-        help="Path to a local PDF resume. Without this option, runs the fake-resume demo.",
+        required=True,
+        help="Path to a local PDF resume.",
     )
     arguments = parser.parse_args()
 
     model = load_embedding_model()
-    if arguments.resume:
-        if not arguments.resume.is_file():
-            parser.error(f"Resume PDF not found: {arguments.resume}")
-        print_rankings("Parsed resume ranking", parse_pdf_resume(arguments.resume), model)
-        return
-
-    from .resumeone import resume_one
-    from .resumetwo import resume_two
-
-    print_rankings("Relevant fake resume ranking", profile_from_fixture(resume_one), model)
-    print_rankings("Unrelated fake resume ranking", profile_from_fixture(resume_two), model)
+    if not arguments.resume.is_file():
+        parser.error(f"Resume PDF not found: {arguments.resume}")
+    print_rankings("Parsed resume ranking", parse_pdf_resume(arguments.resume), model)
 
 
 if __name__ == "__main__":

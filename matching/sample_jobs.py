@@ -1,10 +1,15 @@
-"""Curated job fixtures used for local semantic-matching evaluation."""
+"""Curated job fixtures used for local semantic-matching evaluation.
+
+Each listing below is converted to an embedding and compared with the imported
+resume; these are test data, not live job postings.
+"""
 
 from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
 class JobListing:
+    """The job details used to create one job embedding."""
     title: str
     company: str
     location: str

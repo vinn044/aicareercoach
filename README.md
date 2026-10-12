@@ -33,12 +33,6 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-To rank the included sample resumes against the curated job fixtures:
-
-```bash
-python -m matching.embeddings
-```
-
 To rank a local PDF resume, keep it in `local_resumes/` (which is ignored by
 Git) and run:
 
