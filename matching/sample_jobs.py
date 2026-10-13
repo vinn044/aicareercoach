@@ -29,22 +29,21 @@ SAMPLE_JOBS = [
         application_url="https://example.com/jobs/junior-data-scientist",
     ),
     JobListing(
-        title="Backend Software Engineering Intern",
+        title="Pediatric Nurse",
         company="Cloud Harbor",
         location="Austin, TX",
         description=(
-            "Help develop Python and FastAPI services. Work with PostgreSQL, "
-            "REST APIs, Git, Docker, and automated tests."
+            "Provide compassionate care to pediatric patients in a hospital setting. "
+            "Assist with medical procedures, document patient information, and collaborate with healthcare teams."
         ),
-        application_url="https://example.com/jobs/backend-intern",
+        application_url="https://example.com/jobs/pediatric-nurse",
     ),
     JobListing(
-        title="Frontend Developer Intern",
-        company="Bright Web Studio",
-        location="Remote",
+        title="Wendys Crew Member",
+        company="Wendy's",
+        location="McAllen, TX",
         description=(
-            "Build responsive React and JavaScript interfaces with HTML and CSS. "
-            "Collaborate through GitHub pull requests."
+            "Prepare food, take orders, and provide excellent customer service in a fast-paced restaurant environment."
         ),
         application_url="https://example.com/jobs/frontend-intern",
     ),
@@ -59,12 +58,11 @@ SAMPLE_JOBS = [
         application_url="https://example.com/jobs/it-support-assistant",
     ),
     JobListing(
-        title="Cloud Operations Intern",
+        title="Psychology Research Assistant",
         company="Northstar Systems",
         location="Dallas, TX",
         description=(
-            "Support AWS infrastructure, Docker deployments, Linux operations, "
-            "and monitoring for web applications."
+            "Assist with psychological research studies, collect and analyze data, "
         ),
         application_url="https://example.com/jobs/cloud-operations-intern",
     ),
@@ -89,13 +87,12 @@ SAMPLE_JOBS = [
         application_url="https://example.com/jobs/restaurant-supervisor",
     ),
     JobListing(
-        title="Accounting Intern",
+        title="Quant Research Intern",
         company="Ledger Partners",
         location="Remote",
         description=(
-            "Assist with invoices, account reconciliation, Excel reports, and "
-            "financial record keeping under the direction of staff accountants."
+            "Assist with quantitative research, data analysis, and financial modeling. "
         ),
-        application_url="https://example.com/jobs/accounting-intern",
+        application_url="https://example.com/jobs/quant-research-intern",
     ),
 ]
