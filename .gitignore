@@ -1,2 +1,13 @@
-.env
-.db
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node / React
+node_modules/
+
+# macOS
+.DS_Store
