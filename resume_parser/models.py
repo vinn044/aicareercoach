@@ -1,3 +1,5 @@
+"""Structured data passed from the resume parser into the matching code."""
+
 import json
 from dataclasses import dataclass, field, asdict
 
@@ -20,6 +22,7 @@ class Experience:
 
 @dataclass
 class CandidateProfile:
+    """Parsed resume information that becomes the input to semantic matching."""
     name: str = ""
     email: str = ""
     phone: str = ""
