@@ -1,0 +1,210 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f7f8fc;
+  color: #1f2937;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* Global heading colors */
+h1,
+h2,
+h3 {
+  color: #1f2937;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar h2 {
+  margin: 0;
+  color: #111827;
+  font-weight: 700;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 24px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  color: #2563eb;
+}
+
+/* Hero section */
+.hero-section {
+  padding: 90px 8%;
+  text-align: center;
+}
+
+.hero-text {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #111827;
+  font-weight: 700;
+}
+
+.hero-text p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+/* Buttons */
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* Resume analyzer section */
+.analyzer-section {
+  padding: 60px 8%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.analyzer-section h2 {
+  font-size: 32px;
+  color: #111827;
+  text-align: center;
+}
+
+.analyzer-section > p {
+  text-align: center;
+  color: #4b5563;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* Resume form card */
+.form-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.form-card label {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.form-card input,
+.form-card textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  background: white;
+  color: #111827;
+}
+
+.form-card textarea {
+  resize: vertical;
+}
+
+/* Results section */
+.results-section {
+  padding: 60px 8%;
+}
+
+.results-section h2 {
+  text-align: center;
+  font-size: 32px;
+  color: #111827;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 30px auto;
+}
+
+.result-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.result-card h3 {
+  margin-top: 0;
+  color: #111827;
+}
+
+.result-card p {
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .navbar nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-text h1 {
+    font-size: 34px;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analyzer-section {
+    padding: 40px 5%;
+  }
+
+  .results-section {
+    padding: 40px 5%;
+  }
+}
