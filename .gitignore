@@ -5,6 +5,17 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.py[cod]
+
+# Environment
+.env
+
+# Database
+.db
+
+# Local project files
+local_resumes/
+matching/mycommands.md
 
 # Node / React
 node_modules/
