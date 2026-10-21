@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Course | UTRGV{% endblock %}
+
+{% block content %}
+<div class="form-card" style="max-width: 660px;">
+    <h2>Edit Course</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="action-bar" style="margin-top: 16px;">
+            <button type="submit" class="btn btn-primary">Update Course</button>
+            <a href="{% url 'home' %}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

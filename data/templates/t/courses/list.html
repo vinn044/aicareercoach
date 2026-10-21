@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Course Catalog | UTRGV{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 6px;">Course Catalog</h2>
+<p style="color:#555; margin-bottom: 24px;">Browse all available courses and register today.</p>
+
+<form method="get" style="margin-bottom: 24px;">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+        <input 
+            type="text" 
+            name="q" 
+            placeholder="Search for courses..." 
+            value="{{ query }}"
+            style="flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem;"
+        />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px;">
+        <select name="credits" aria-label="Filter by credits" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem;">
+            <option value="">All credits</option>
+            {% for credits in credits_options %}
+                <option value="{{ credits }}" {% if selected_credits == credits|stringformat:"s" %}selected{% endif %}>
+                    {{ credits }} credits
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="start_date" aria-label="Filter by start date" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem;">
+            <option value="">All start dates</option>
+            {% for start_date in start_date_options %}
+                <option value="{{ start_date|date:'Y-m-d' }}" {% if selected_start_date == start_date|date:'Y-m-d' %}selected{% endif %}>
+                    Starts {{ start_date|date:'Y-m-d' }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="end_date" aria-label="Filter by end date" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem;">
+            <option value="">All end dates</option>
+            {% for end_date in end_date_options %}
+                <option value="{{ end_date|date:'Y-m-d' }}" {% if selected_end_date == end_date|date:'Y-m-d' %}selected{% endif %}>
+                    Ends {{ end_date|date:'Y-m-d' }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="sort" aria-label="Sort courses" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem;">
+            <option value="">Sort by name</option>
+            <option value="name" {% if selected_sort == 'name' %}selected{% endif %}>Name</option>
+            <option value="crn" {% if selected_sort == 'crn' %}selected{% endif %}>CRN</option>
+            <option value="instructor" {% if selected_sort == 'instructor' %}selected{% endif %}>Instructor</option>
+        </select>
+    </div>
+</form>
+
+{% if user.is_authenticated and user.is_staff %}
+    <div class="action-bar" style="margin-bottom: 18px;">
+        <a href="{% url 'course_create' %}" class="btn btn-primary">Create New Course</a>
+    </div>
+{% endif %}
+
+<ul class="course-list">
+    {% for course in courses %}
+        <li class="course-item">
+            <div class="course-title">{{ course.name }}</div>
+            <div class="course-description">{{ course.description }}</div>
+            <div class="course-meta">
+                <i class="fas fa-hashtag"></i> CRN: {{ course.crn }} &nbsp;|&nbsp;
+                <i class="fas fa-graduation-cap"></i> {{ course.credits }} credits &nbsp;|&nbsp;
+                <i class="fas fa-user"></i> Instructor: {{ course.instructor.get_full_name }}
+            </div>
+            <a href="{{ course.get_absolute_url }}" class="course-link">View Course</a>
+        </li>
+    {% empty %}
+        <li style="color:#666; font-size:0.95rem;">No courses available at this time.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

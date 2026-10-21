@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Course | UTRGV{% endblock %}
+
+{% block content %}
+<div class="detail-card" style="max-width: 520px; margin: 40px auto;">
+    <h2>Delete Course</h2>
+    <p style="margin-bottom: 20px;">You are about to permanently remove <strong>{{ course.name }}</strong> from the course catalog. This action cannot be undone.</p>
+    <div class="action-bar">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Course</button>
+        </form>
+        <a href="{% url 'course_detail' course.id %}" class="btn btn-outline">Cancel</a>
+    </div>
+</div>
+{% endblock %}
