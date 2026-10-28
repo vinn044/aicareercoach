@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}My Resumes | AI Career Coach{% endblock %}
+{% block content %}<h1>My Resumes</h1><p>Only resumes saved in your account appear here.</p>
+<form method="get"><label for="search">Search by title, major, or minor</label>
+<input id="search" name="q" value="{{ query }}"><button type="submit">Search</button></form>
+<p><a class="btn btn-primary" href="{% url 'resume_create' %}">Add Resume</a></p>
+<ul class="resume-list">{% for resume in page_obj %}<li class="detail-card">
+<h2><a href="{{ resume.get_absolute_url }}">{{ resume.title }}</a></h2>
+<p>Major: {{ resume.major|default:'Not provided' }} · Minor: {{ resume.minor|default:'Not provided' }}</p>
+<p>Updated {{ resume.updated_at }}</p></li>{% empty %}<li>No saved resumes match this search.</li>{% endfor %}</ul>
+{% if page_obj.has_previous %}<a href="?q={{ query|urlencode }}&page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}
+{% if page_obj.has_next %}<a href="?q={{ query|urlencode }}&page={{ page_obj.next_page_number }}">Next</a>{% endif %}
+{% endblock %}

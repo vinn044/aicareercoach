@@ -1,0 +1,22 @@
+/* Small functional baseline; the UI teammate can replace these styles. */
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.6 system-ui, sans-serif; background: #f6f8fb; color: #172337; }
+a { color: #174eaa; }
+.site-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; background: white; padding: 20px 5%; border-bottom: 1px solid #d7dfec; }
+.site-logo { font-weight: 750; font-size: 23px; text-decoration: none; }
+.site-nav ul { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; list-style: none; padding: 0; }
+.container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+.detail-card, .form-card { background: white; padding: 28px; border: 1px solid #d7dfec; border-radius: 12px; margin: 20px 0; }
+.form-card { max-width: 650px; margin: 20px auto; }
+label { display: block; font-weight: 600; }
+input, textarea { width: 100%; padding: 10px; border: 1px solid #aab8cd; border-radius: 5px; font: inherit; }
+.helptext { display: block; font-size: 14px; color: #516076; }
+button, .btn { display: inline-block; cursor: pointer; background: #174eaa; border: 0; border-radius: 6px; padding: 9px 15px; color: white; text-decoration: none; font: inherit; }
+.btn-danger { background: #9c2530; }
+.action-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.errorlist { color: #9c2530; }
+.message { background: #e6edf9; padding: 12px; border-radius: 5px; }
+.resume-text { font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.resume-list { list-style: none; padding: 0; }
+.site-footer { text-align: center; color: #516076; padding: 30px; }
+.form-footer { margin-top: 20px; }

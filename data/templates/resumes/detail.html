@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}{{ resume.title }} | AI Career Coach{% endblock %}
+{% block content %}<div class="detail-card"><h1>{{ resume.title }}</h1>
+<p><strong>Major:</strong> {{ resume.major|default:'Not provided' }}</p>
+<p><strong>Minor:</strong> {{ resume.minor|default:'Not provided' }}</p>
+<pre class="resume-text">{{ resume.text }}</pre>
+<div class="action-bar"><a href="{% url 'resume_list' %}">Back to Resumes</a>
+<a class="btn" href="{% url 'resume_edit' resume.pk %}">Edit</a>
+<a class="btn btn-danger" href="{% url 'resume_delete' resume.pk %}">Delete</a></div></div>
+<h2>Resume Feedback</h2>
+{% for item in resume.feedback.all %}<article class="detail-card"><h3>{{ item.get_kind_display }}</h3>
+<p>{{ item.message }}</p>{% if item.evidence %}<p><strong>Text to review:</strong> {{ item.evidence }}</p>{% endif %}
+{% if item.suggestion %}<p><strong>Suggestion:</strong> {{ item.suggestion }}</p>{% endif %}
+<p>Status: {{ item.get_status_display }}</p>
+<form method="post" action="{% url 'feedback_status' item.pk %}">{% csrf_token %}
+<button name="status" value="resolved">Mark Corrected</button><button name="status" value="dismissed">Dismiss</button>
+<button name="status" value="open">Reopen</button></form></article>
+{% empty %}<p>No feedback saved yet. Automated analysis is not connected in this version.</p>{% endfor %}
+<h2>Job Matches</h2>{% for match in resume.matches.all %}<article class="detail-card"><h3>{{ match.title }}</h3>
+<p>{{ match.company }} · Similarity: {{ match.score|floatformat:3 }}</p><p>{{ match.explanation }}</p>
+{% if match.url %}<a href="{{ match.url }}" rel="noopener noreferrer">View Job</a>{% endif %}</article>
+{% empty %}<p>No job matches saved yet. The matching engine is not connected in this version.</p>{% endfor %}
+{% endblock %}

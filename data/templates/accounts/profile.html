@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}My Profile | AI Career Coach{% endblock %}
+{% block content %}<div class="detail-card"><h2>My Profile</h2><div class="profile-info">
+<p><strong>Username:</strong> {{ user.username }}</p><p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Name:</strong> {{ user.get_full_name|default:'Not provided' }}</p>
+</div></div>{% endblock %}

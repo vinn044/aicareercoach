@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}AI Career Coach{% endblock %}
+    </title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <a href="{% url 'home' %}" class="site-logo">
+            <span class="logo-main">AI Career Coach</span>
+        </a>
+        <nav class="site-nav">
+            <ul>
+                <li>
+                    <a href="{% url 'home' %}">
+                        Dashboard
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="#">
+                            Resume
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Job Matches
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Profile
+                        </a>
+                    </li>
+
+                    <li>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+
+                {% else %}
+
+                    <li>
+                        <a href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <main class="page-wrapper">
+        <div class="container">
+
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+    </main>
+
+
+    <footer class="site-footer">
+        <div class="footer-brand">
+            AI Career Coach
+        </div>
+
+        <p>
+            AI-assisted resume analysis and job matching
+        </p>
+    </footer>
+
+</body>
+</html>

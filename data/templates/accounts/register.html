@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Create Account | AI Career Coach{% endblock %}
+{% block content %}<div class="form-card"><h2>Create Your Account</h2><p>Create an account to save your resume and receive personalized job matches.</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}
+{% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+<button type="submit" class="btn btn-primary">Create Account</button></form>
+<div class="form-footer"><a href="{% url 'login' %}">Already have an account? Sign in</a></div></div>{% endblock %}

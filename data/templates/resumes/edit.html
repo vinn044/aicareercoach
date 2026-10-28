@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}Edit Resume | AI Career Coach{% endblock %}
+{% block content %}<div class="form-card"><h1>Edit Resume</h1>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit" class="btn btn-primary">Save Changes</button></form>
+<a href="{% url 'resume_list' %}">Cancel</a></div>{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}<div class="detail-card"><h1>Your next step starts here.</h1>
+{% if user.is_authenticated %}<p>You have {{ resume_count }} saved resume{{ resume_count|pluralize }}.</p>
+<a class="btn btn-primary" href="{% url 'resume_list' %}">Manage resumes</a>
+{% else %}<p>Save your resume and academic background in your own account.</p><a class="btn btn-primary" href="{% url 'register' %}">Create an account</a>{% endif %}
+</div>{% endblock %}

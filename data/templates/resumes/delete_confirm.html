@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Delete Resume | AI Career Coach{% endblock %}
+{% block content %}<div class="form-card"><h1>Delete {{ resume.title }}?</h1>
+<p>This deletes the resume and its saved feedback and job matches.</p>
+<form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Delete Resume</button></form>
+<a href="{{ resume.get_absolute_url }}">Cancel</a></div>{% endblock %}

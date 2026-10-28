@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Job Matches | AI Career Coach{% endblock %}
+{% block content %}<h1>Job Matches</h1>{% for match in matches %}<article class="detail-card"><h2>{{ match.title }}</h2>
+<p>{{ match.company }} · Similarity: {{ match.score|floatformat:3 }}</p><p>{{ match.explanation }}</p>
+<a href="{{ match.resume.get_absolute_url }}">{{ match.resume.title }}</a>
+{% if match.url %}<a href="{{ match.url }}" rel="noopener noreferrer">View Job</a>{% endif %}</article>
+{% empty %}<p>No saved matches yet. The matching engine is not connected in this version.</p>{% endfor %}{% endblock %}
