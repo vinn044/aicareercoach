@@ -12,6 +12,7 @@ body {
   min-height: 100vh;
   background: #f7f6f2;
   color: #262622;
+
   font-family:
     Inter,
     -apple-system,
@@ -438,13 +439,35 @@ a {
   line-height: 1.6;
 }
 
+
+/* MAIN SIMILARITY SCORE */
+
 .score {
   margin: 0 0 14px !important;
 
   font-family: Georgia, "Times New Roman", serif;
   font-size: 3.4rem;
-  color: #566b5b !important;
+
+  transition: color 0.4s ease;
 }
+
+
+/* SCORE COLORS */
+
+.score-low {
+  color: #b85c55 !important;
+}
+
+.score-medium {
+  color: #c59a3d !important;
+}
+
+.score-high {
+  color: #5f7865 !important;
+}
+
+
+/* SCORE METER */
 
 .score-meter {
   width: 100%;
@@ -466,10 +489,26 @@ a {
   width: var(--score);
   height: 100%;
 
-  background: #687c6b;
   border-radius: 999px;
 
-  transition: width 0.6s ease;
+  transition:
+    width 0.6s ease,
+    background 0.4s ease;
+}
+
+
+/* SCORE METER COLORS */
+
+.score-meter.score-low::after {
+  background: #b85c55;
+}
+
+.score-meter.score-medium::after {
+  background: #c59a3d;
+}
+
+.score-meter.score-high::after {
+  background: #5f7865;
 }
 
 .score-note {
@@ -584,17 +623,40 @@ a {
   font-size: 0.84rem;
 }
 
+
+/* RANKING SCORE BADGES */
+
 .ranking-score {
   padding: 7px 11px;
-
-  background: #eef1ec;
-  color: #536158;
 
   border-radius: 999px;
 
   font-size: 0.82rem;
   font-weight: 700;
+
+  transition:
+    color 0.3s ease,
+    background 0.3s ease;
 }
+
+.ranking-score.score-low {
+  background: #f6e7e5;
+  color: #a94f48 !important;
+}
+
+.ranking-score.score-medium {
+  background: #f6efdc;
+  color: #9b7726 !important;
+}
+
+.ranking-score.score-high {
+  background: #e9f0ea;
+  color: #536b59 !important;
+}
+
+
+/* 3D CAREER SCENE */
+
 .career-scene {
   width: 200%;
   height: 460px;

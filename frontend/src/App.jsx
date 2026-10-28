@@ -86,6 +86,12 @@ function App() {
     ? Math.max(0, Math.min(100, results.top_match.score * 100))
     : 0
 
+  function getScoreClass(score) {
+    if (score < 50) return 'score-low'
+    if (score < 75) return 'score-medium'
+    return 'score-high'
+  }
+
   return (
     <div className="app">
       <header className="navbar">
@@ -237,12 +243,14 @@ function App() {
 
               {results?.top_match ? (
                 <>
-                  <p className="score">
+                  <p
+                    className={`score ${getScoreClass(scorePercent)}`}
+                  >
                     {scorePercent.toFixed(1)}%
                   </p>
 
                   <div
-                    className="score-meter"
+                    className={`score-meter ${getScoreClass(scorePercent)}`}
                     role="progressbar"
                     aria-label="Similarity score"
                     aria-valuemin="0"
@@ -295,31 +303,41 @@ function App() {
             <div className="rankings" aria-live="polite">
               <div className="rankings-heading">
                 <h3>Your Ranked Job Matches</h3>
+
                 <p>
                   All available jobs, ordered by semantic similarity.
                 </p>
               </div>
 
               <ol className="ranking-list">
-                {results.ranked_jobs.map((job, index) => (
-                  <li key={`${job.title}-${job.company}`}>
-                    <div className="ranking-position">
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
+                {results.ranked_jobs.map((job, index) => {
+                  const jobScore = Math.max(
+                    0,
+                    Math.min(100, job.score * 100)
+                  )
 
-                    <div className="ranking-info">
-                      <strong>{job.title}</strong>
+                  return (
+                    <li key={`${job.title}-${job.company}`}>
+                      <div className="ranking-position">
+                        {String(index + 1).padStart(2, '0')}
+                      </div>
 
-                      <span>
-                        {job.company} · {job.location}
+                      <div className="ranking-info">
+                        <strong>{job.title}</strong>
+
+                        <span>
+                          {job.company} · {job.location}
+                        </span>
+                      </div>
+
+                      <span
+                        className={`ranking-score ${getScoreClass(jobScore)}`}
+                      >
+                        {jobScore.toFixed(1)}%
                       </span>
-                    </div>
-
-                    <span className="ranking-score">
-                      {(job.score * 100).toFixed(1)}%
-                    </span>
-                  </li>
-                ))}
+                    </li>
+                  )
+                })}
               </ol>
             </div>
           )}
