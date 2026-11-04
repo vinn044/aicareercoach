@@ -3,13 +3,14 @@ from functools import lru_cache
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import FastAPI, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from matching.embeddings import load_embedding_model, rank_jobs
 from matching.sample_jobs import JobListing, SAMPLE_JOBS
 from resume_parser.extractor import extract_text_from_pdf
 from resume_parser.parser import extract_skills, parse_resume
+from backend.adzuna import JobSearchError, configured as adzuna_configured, search_jobs
 
 app = FastAPI(title="AI Career Coach API")
 
@@ -94,10 +95,31 @@ def parse_uploaded_resume(file: UploadFile):
         file.file.close()
 
 
+def requested_jobs(query: str, location: str) -> tuple[list[JobListing], str]:
+    """Use live jobs only for an explicit search, with a runnable offline demo."""
+    if not query.strip() and not location.strip():
+        return SAMPLE_JOBS, "sample"
+
+    if not adzuna_configured():
+        return SAMPLE_JOBS, "sample"
+
+    try:
+        jobs = list(search_jobs(query or "software engineer", location or "Texas"))
+    except JobSearchError as error:
+        raise HTTPException(status_code=502, detail=str(error)) from error
+
+    return jobs, "adzuna"
+
+
 @app.get("/api/jobs")
-def list_jobs():
-    """Expose the same sample jobs the ranking endpoint uses."""
-    return {"jobs": [job_payload(job) for job in SAMPLE_JOBS]}
+def list_jobs(query: str = "", location: str = ""):
+    """Search current U.S. Adzuna jobs, with sample data as an offline fallback."""
+    jobs, source = requested_jobs(query, location)
+    return {
+        "jobs": [job_payload(job) for job in jobs],
+        "source": source,
+        "attribution_required": source == "adzuna",
+    }
 
 
 @app.post("/api/resume/parse")
@@ -107,9 +129,17 @@ def parse_resume_endpoint(file: UploadFile):
 
 
 @app.post("/api/resume/match")
-def match_uploaded_resume(file: UploadFile):
+def match_uploaded_resume(
+    file: UploadFile,
+    query: str = Form(default=""),
+    location: str = Form(default=""),
+):
     profile = parse_uploaded_resume(file)
-    ranked_jobs = rank_jobs(profile, SAMPLE_JOBS, matching_model())
+    jobs, source = requested_jobs(query, location)
+    if not jobs:
+        raise HTTPException(status_code=404, detail="No jobs found. Try a different search.")
+
+    ranked_jobs = rank_jobs(profile, jobs, matching_model())
     top_match = ranked_jobs[0]
 
     # Compare recognized skill names, not embedding values, for an explainable card.
@@ -126,4 +156,5 @@ def match_uploaded_resume(file: UploadFile):
         "ranked_jobs": [
             job_payload(ranked.job, ranked.score) for ranked in ranked_jobs
         ],
+        "source": source,
     }

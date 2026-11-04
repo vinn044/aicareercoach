@@ -112,17 +112,27 @@ button:hover {
   line-height: 1.6;
 }
 
-.jobs-section {
-  padding: 20px 8% 40px;
+.job-search {
+  align-items: end;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
-.jobs-section h2,
-.jobs-section > p {
-  text-align: center;
+.job-search label {
+  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 700;
+  gap: 6px;
 }
 
-.jobs-section > p {
-  color: #4b5563;
+.job-search input {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font: inherit;
+  padding: 11px;
 }
 
 .jobs-grid {
@@ -152,6 +162,21 @@ button:hover {
 .job-meta {
   font-weight: 600;
   font-size: 14px;
+}
+
+.apply-link {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.job-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.job-title-link:hover {
+  color: #2563eb;
+  text-decoration: underline;
 }
 
 /* Resume form card */
@@ -286,34 +311,19 @@ button:hover {
   margin: 0;
 }
 
-.ranking-list {
-  margin-bottom: 0;
-  padding-left: 28px;
-}
-
-.ranking-list li {
-  align-items: center;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  padding: 14px 0 14px 6px;
-}
-
-.ranking-list li:first-child {
-  margin-top: 14px;
-}
-
-.ranking-list span {
-  color: #6b7280;
-  display: block;
-  margin-top: 4px;
-}
-
 .ranking-list .ranking-score {
   color: #2563eb;
   font-size: 18px;
   font-weight: 700;
   margin: 0;
+}
+
+.job-card .ranking-score {
+  color: #2563eb;
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
 /* Mobile responsiveness */
@@ -333,6 +343,10 @@ button:hover {
   }
 
   .results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .job-search {
     grid-template-columns: 1fr;
   }
 
