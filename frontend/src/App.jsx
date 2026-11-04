@@ -1,33 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 
 const API_URL = 'http://localhost:8000/api'
 
 function App() {
   const [resume, setResume] = useState(null)
-  const [jobs, setJobs] = useState([])
+  const [jobQuery, setJobQuery] = useState('software engineer')
+  const [jobLocation, setJobLocation] = useState('Texas')
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [jobsError, setJobsError] = useState('')
-
-  useEffect(() => {
-    // The backend is the source of truth for the jobs displayed and ranked.
-    async function loadJobs() {
-      try {
-        const response = await fetch(`${API_URL}/jobs`)
-        const data = await response.json()
-        if (!response.ok) {
-          throw new Error('Unable to load available jobs.')
-        }
-        setJobs(data.jobs)
-      } catch {
-        setJobsError('Available jobs could not be loaded. Start the backend and refresh.')
-      }
-    }
-
-    loadJobs()
-  }, [])
 
   async function handleAnalyze() {
     setError('')
@@ -40,6 +22,8 @@ function App() {
 
     const formData = new FormData()
     formData.append('file', resume)
+    formData.append('query', jobQuery)
+    formData.append('location', jobLocation)
     setLoading(true)
 
     try {
@@ -99,31 +83,35 @@ function App() {
           </div>
         </section>
 
-        <section className="jobs-section" id="jobs">
-          <h2>Available Jobs for Matching</h2>
-          <p>These are the eight sample jobs your uploaded resume will be ranked against.</p>
-
-          {jobsError && <p className="message error-message" role="alert">{jobsError}</p>}
-
-          <div className="jobs-grid">
-            {jobs.map((job) => (
-              <article className="job-card" key={`${job.title}-${job.company}`}>
-                <h3>{job.title}</h3>
-                <p className="job-meta">{job.company} · {job.location}</p>
-                <p>{job.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section className="analyzer-section" id="analyze">
           <h2>Resume Analyzer</h2>
 
           <p>
-            Upload a PDF resume to rank it against the available jobs.
+            Choose the kind of job you want, then upload your resume to find your best matches.
           </p>
 
           <div className="form-card">
+            <div className="job-search">
+              <label>
+                Job title or keywords
+                <input
+                  value={jobQuery}
+                  disabled={loading}
+                  onChange={(event) => setJobQuery(event.target.value)}
+                  placeholder="e.g. software intern"
+                />
+              </label>
+              <label>
+                Location
+                <input
+                  value={jobLocation}
+                  disabled={loading}
+                  onChange={(event) => setJobLocation(event.target.value)}
+                  placeholder="e.g. McAllen, TX"
+                />
+              </label>
+            </div>
+
             <label htmlFor="resume">Upload Resume</label>
 
             <input
@@ -133,7 +121,6 @@ function App() {
               disabled={loading}
               onChange={(event) => {
                 setResume(event.target.files?.[0] ?? null)
-                setProfile(null)
                 setError('')
                  }}
               />
@@ -161,7 +148,7 @@ function App() {
           </div>
         </section>
 
-        <section className="results-section">
+        <section className="results-section" id="jobs">
           <h2>Analysis Results</h2>
 
           <div className="results-grid">
@@ -198,18 +185,30 @@ function App() {
           {results && (
             <div className="rankings" aria-live="polite">
               <h3>Your Ranked Job Matches</h3>
-              <p>All available jobs, ordered by semantic similarity.</p>
-              <ol className="ranking-list">
+              <p>
+                {results.source === 'adzuna' ? 'Live listings from ' : ''}
+                {results.source === 'adzuna' && <a href="https://www.adzuna.com/" target="_blank" rel="noreferrer">Jobs by Adzuna</a>}
+                {results.source === 'adzuna' ? ', ordered' : 'Jobs ordered'} by semantic similarity.
+              </p>
+              <div className="jobs-grid">
                 {results.ranked_jobs.map((job) => (
-                  <li key={`${job.title}-${job.company}`}>
-                    <div>
-                      <strong>{job.title}</strong>
-                      <span>{job.company} · {job.location}</span>
-                    </div>
-                    <span className="ranking-score">{(job.score * 100).toFixed(1)}%</span>
-                  </li>
+                  <article className="job-card" key={`${job.title}-${job.company}`}>
+                    <span className="ranking-score">{(job.score * 100).toFixed(1)}% match</span>
+                    <h3>
+                      {job.application_url ? (
+                        <a className="job-title-link" href={job.application_url} target="_blank" rel="noreferrer">{job.title}</a>
+                      ) : job.title}
+                    </h3>
+                    <p className="job-meta">{job.company} · {job.location}</p>
+                    <p>{job.description}</p>
+                    {job.application_url && (
+                      <a className="apply-link" href={job.application_url} target="_blank" rel="noreferrer">
+                        View job &amp; apply
+                      </a>
+                    )}
+                  </article>
                 ))}
-              </ol>
+              </div>
             </div>
           )}
         </section>
