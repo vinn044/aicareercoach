@@ -1,0 +1,334 @@
+/* =========================================================
+   UTRGV-Inspired Theme
+   Primary Orange : #F26522
+   Dark Navy      : #003057
+   Light Gray     : #f5f5f5
+   ========================================================= */
+
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a { color: #F26522; text-decoration: none; }
+a:hover { text-decoration: underline; color: #c94e10; }
+
+h1, h2, h3 { color: #003057; }
+
+/* --- Top utility bar (mimics UTRGV top strip) --- */
+.top-bar {
+    background-color: #003057;
+    color: #fff;
+    font-size: 0.78rem;
+    padding: 6px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+.top-bar a { color: #f0f0f0; font-size: 0.78rem; }
+.top-bar a:hover { color: #F26522; text-decoration: none; }
+
+/* --- Main header --- */
+header.site-header {
+    background-color: #fff;
+    border-bottom: 4px solid #F26522;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 70px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.site-logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    text-decoration: none;
+}
+.site-logo .logo-utrgv {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #F26522;
+    letter-spacing: 1px;
+}
+.site-logo .logo-subtitle {
+    font-size: 0.7rem;
+    color: #003057;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* --- Navigation --- */
+nav.site-nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+nav.site-nav ul li {}
+nav.site-nav a,
+nav.site-nav button[type="submit"] {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #003057;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    font-family: inherit;
+    text-decoration: none;
+}
+nav.site-nav a:hover,
+nav.site-nav button[type="submit"]:hover {
+    background-color: #F26522;
+    color: #fff;
+    text-decoration: none;
+}
+nav.site-nav a.btn-nav-primary {
+    background-color: #F26522;
+    color: #fff;
+}
+nav.site-nav a.btn-nav-primary:hover {
+    background-color: #c94e10;
+}
+nav.site-nav form { display: inline; }
+
+/* --- Page wrapper (stretches footer to bottom) --- */
+.page-wrapper {
+    flex: 1;
+}
+
+/* --- Content container --- */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+/* --- Page heading strip --- */
+.page-heading {
+    background-color: #003057;
+    color: #fff;
+    padding: 22px 24px;
+}
+.page-heading h2 {
+    color: #fff;
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+/* --- Alert / flash messages --- */
+.message {
+    padding: 12px 18px;
+    margin: 16px 0;
+    border-radius: 4px;
+    font-weight: 500;
+}
+.message.success  { background-color: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+.message.error    { background-color: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+.message.warning  { background-color: #fff3cd; color: #856404; border-left: 4px solid #ffc107; }
+.message.info     { background-color: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+
+/* --- Course grid --- */
+.course-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 0;
+    list-style: none;
+}
+
+.course-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: 4px solid #F26522;
+    border-radius: 6px;
+    padding: 22px;
+    width: calc(33.333% - 16px);
+    box-sizing: border-box;
+    transition: box-shadow 0.25s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+.course-item:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.course-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #003057;
+    margin-bottom: 8px;
+}
+
+.course-description {
+    font-size: 0.92rem;
+    color: #555;
+    flex: 1;
+    margin-bottom: 12px;
+}
+
+.course-meta {
+    font-size: 0.82rem;
+    color: #777;
+    margin-bottom: 12px;
+}
+
+.course-link {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: #F26522;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    align-self: flex-start;
+}
+.course-link:hover {
+    background-color: #c94e10;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    font-family: inherit;
+}
+.btn-primary   { background-color: #F26522; color: #fff; }
+.btn-primary:hover { background-color: #c94e10; color: #fff; text-decoration: none; }
+.btn-secondary { background-color: #003057; color: #fff; }
+.btn-secondary:hover { background-color: #001f3f; color: #fff; text-decoration: none; }
+.btn-danger    { background-color: #dc3545; color: #fff; }
+.btn-danger:hover { background-color: #a71d2a; color: #fff; text-decoration: none; }
+.btn-outline   { background-color: transparent; color: #003057; border: 2px solid #003057; }
+.btn-outline:hover { background-color: #003057; color: #fff; text-decoration: none; }
+
+/* --- Forms --- */
+.form-card {
+    background-color: #fff;
+    border-top: 4px solid #F26522;
+    border-radius: 6px;
+    padding: 32px 36px;
+    max-width: 520px;
+    margin: 40px auto;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+.form-card h2 {
+    margin-bottom: 22px;
+    font-size: 1.5rem;
+    color: #003057;
+}
+.form-card p { margin-bottom: 14px; }
+.form-card label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 4px;
+}
+.form-card input[type="text"],
+.form-card input[type="email"],
+.form-card input[type="password"],
+.form-card input[type="number"],
+.form-card input[type="date"],
+.form-card select,
+.form-card textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.93rem;
+    transition: border-color 0.2s;
+}
+.form-card input:focus,
+.form-card select:focus,
+.form-card textarea:focus {
+    outline: none;
+    border-color: #F26522;
+    box-shadow: 0 0 0 3px rgba(242,101,34,0.15);
+}
+.form-card button[type="submit"] {
+    width: 100%;
+    margin-top: 8px;
+}
+.form-card .form-footer {
+    margin-top: 16px;
+    font-size: 0.88rem;
+    text-align: center;
+    color: #666;
+}
+
+/* --- Detail page --- */
+.detail-card {
+    background-color: #fff;
+    border-top: 4px solid #F26522;
+    border-radius: 6px;
+    padding: 32px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    margin-bottom: 24px;
+}
+.detail-card h2 { font-size: 1.8rem; margin-bottom: 16px; }
+.detail-card p  { margin-bottom: 10px; font-size: 0.97rem; line-height: 1.6; }
+.detail-card .detail-label { font-weight: 700; color: #003057; }
+
+.action-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    align-items: center;
+}
+.action-bar form { margin: 0; }
+
+/* --- Footer --- */
+footer.site-footer {
+    background-color: #003057;
+    color: #ccc;
+    padding: 28px 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+footer.site-footer a { color: #F26522; }
+footer.site-footer a:hover { color: #ff8c55; text-decoration: none; }
+.footer-brand {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .course-item { width: calc(50% - 12px); }
+}
+@media (max-width: 580px) {
+    .course-item { width: 100%; }
+    header.site-header { flex-direction: column; padding: 12px 16px; gap: 10px; }
+    nav.site-nav ul { justify-content: center; }
+}  
