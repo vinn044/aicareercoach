@@ -1,6 +1,13 @@
+# Ignore environment variables and credentials
 .env
+.env.*
+
+# Ignore database files
 .db
 
 # Ignore Python cache files
 __pycache__/
 *.pyc
+
+# Ignore Python virtual environments
+.venv/
